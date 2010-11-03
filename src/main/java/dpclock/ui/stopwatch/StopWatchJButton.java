@@ -1,3 +1,8 @@
+/**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
+ * 
+ */
 package dpclock.ui.stopwatch;
 
 import java.awt.Color;
@@ -15,9 +20,6 @@ import javax.swing.Timer;
 
 public class StopWatchJButton extends JButton implements PropertyChangeListener,ActionListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1319007015677173723L;
 
 	private StopWatchBean stopWatchBean;

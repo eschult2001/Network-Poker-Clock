@@ -2,14 +2,12 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" 
 		xmlns:tns="uri:dpclock:tournamentSettings" 
 		targetNamespace="uri:dpclock:tournamentSettings" 
-		elementFormDefault="qualified">
+		elementFormDefault="unqualified">
 	<element name="tournament" >
 		<complexType>
 			<all>
 				<element name="name" 			type="string"/>
 				<element name="startingLevel"	type="string" />
-				<element name="leveltime"		type="int"/>
-				<element name="breaktime"		type="int"/>
 				<element name="levels">
 					<complexType>
 						<choice maxOccurs="unbounded">
@@ -19,6 +17,7 @@
 									<attribute name="smallBlind" type="int" />
 									<attribute name="bigBlind" type="int" />
 									<attribute name="ante" type="int"/>
+									<attribute name="seconds" type="int"/>
 								</complexType>
 							</element>
 							<element name="break">
@@ -27,6 +26,7 @@
 										<element name="note" type="string"/>
 									</sequence>
 									<attribute name="name" type="string" />
+									<attribute name="seconds" type="int"/>
 								</complexType>
 							</element>
 						</choice>

@@ -1,3 +1,8 @@
+/**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
+ * 
+ */
 package dpclock.awt;
 
 import java.awt.Insets;
@@ -11,7 +16,6 @@ public class GridBagConstraints extends java.awt.GridBagConstraints {
 
 	public GridBagConstraints() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public GridBagConstraints(int gridx, int gridy, int gridwidth,
@@ -19,39 +23,38 @@ public class GridBagConstraints extends java.awt.GridBagConstraints {
 			int fill, Insets insets, int ipadx, int ipady) {
 		super(gridx, gridy, gridwidth, gridheight, weightx, weighty, anchor, fill,
 				insets, ipadx, ipady);
-		// TODO Auto-generated constructor stub
 	}
 
-	public int getGridx() { return gridx; }
-	public void setGridx(int gridx) { this.gridx = gridx; }
+	public final int getGridx() { return gridx; }
+	public final void setGridx(final int gridx) { this.gridx = gridx; }
 	
-	public int getGridy() { return gridy; }
-	public void setGridy(int gridy) { this.gridy = gridy; }
+	public final int getGridy() { return gridy; }
+	public final void setGridy(final int gridy) { this.gridy = gridy; }
 	
-	public int getGridwidth() { return gridwidth; }
-	public void setGridwidth(int gridwidth) { this.gridwidth = gridwidth; }
+	public final int getGridwidth() { return gridwidth; }
+	public final void setGridwidth(final int gridwidth) { this.gridwidth = gridwidth; }
 	
-	public int getGridheight() { return gridheight; }
-	public void setGridheight(int gridheight) { this.gridheight = gridheight; }
+	public final int getGridheight() { return gridheight; }
+	public final void setGridheight(final int gridheight) { this.gridheight = gridheight; }
 	
-	public double getWeightx() { return weightx; }
-	public void setWeightx(double weightx) { this.weightx = weightx; }
+	public final double getWeightx() { return weightx; }
+	public final void setWeightx(final double weightx) { this.weightx = weightx; }
 	
-	public double getWeighty() { return weighty; }
-	public void setWeighty(double weighty) { this.weighty = weighty; }
+	public final double getWeighty() { return weighty; }
+	public final void setWeighty(final double weighty) { this.weighty = weighty; }
 
-	public int getAnchor() { return anchor; }
-	public void setAnchor(int anchor) { this.anchor = anchor; }
+	public final int getAnchor() { return anchor; }
+	public final void setAnchor(final int anchor) { this.anchor = anchor; }
 
-	public int getFill() { return fill; }
-	public void setFill(int fill) { this.fill = fill; }
+	public final int getFill() { return fill; }
+	public final void setFill(final int fill) { this.fill = fill; }
 
-	public Insets getInsets() { return insets; }
-	public void setInsets(Insets insets) { this.insets = insets; }
+	public final Insets getInsets() { return insets; }
+	public final void setInsets(final Insets insets) { this.insets = insets; }
 
-	public int getIpadx() { return ipadx; }
-	public void setIpadx(int ipadx) { this.ipadx = ipadx; }
+	public final int getIpadx() { return ipadx; }
+	public final void setIpadx(final int ipadx) { this.ipadx = ipadx; }
 	
-	public int getIpady() { return ipady; }
-	public void setIpady(int ipady) { this.ipady = ipady; }
+	public final int getIpady() { return ipady; }
+	public final void setIpady(final int ipady) { this.ipady = ipady; }
 }

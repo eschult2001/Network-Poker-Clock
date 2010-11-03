@@ -1,20 +1,20 @@
+/**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
+ * 
+ */
 package dpclock.schema.util;
 
 import java.io.FileInputStream;
-import java.lang.reflect.Array;
-import java.util.Arrays;
+import java.io.IOException;
 
 import javax.xml.transform.stream.StreamSource;
 
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 import org.springframework.oxm.Unmarshaller;
-import org.springframework.oxm.XmlMappingException;
 import org.springframework.stereotype.Component;
 
-import dpclock.schema.BreakLevelBean;
-import dpclock.schema.LevelBean;
 import dpclock.schema.Tournament;
-import dpclock.schema.TournamentLevelBean;
 
 @Component
 public class TournamentUnmarshaller extends AbstractFactoryBean<Tournament> {
@@ -26,25 +26,24 @@ public class TournamentUnmarshaller extends AbstractFactoryBean<Tournament> {
 	private String fileName = DEFAULT_FILE_NAME;
 	private Unmarshaller unmarshaller;
 	
-	public void setFileName(String fileName) {
+	public final void setFileName(final String fileName) {
 		this.fileName = fileName;
 	}
-	public void setUnmarshaller(Unmarshaller unmarshaller) {
+	public final void setUnmarshaller(final Unmarshaller unmarshaller) {
 		this.unmarshaller = unmarshaller;
 	}
 	
 	@Override
-	public Class<?> getObjectType() {
+	public final Class<?> getObjectType() {
 		return Tournament.class;
 	}
 
 	@Override
-	protected Tournament createInstance() throws Exception {
+	protected final Tournament createInstance() throws IOException {
         FileInputStream is = null;
         try {
             is = new FileInputStream(fileName);
-            Tournament settings = (Tournament) this.unmarshaller.unmarshal(new StreamSource(is));
-            return settings;
+            return (Tournament) this.unmarshaller.unmarshal(new StreamSource(is));
         } finally {
             if (is != null) {
                 is.close();

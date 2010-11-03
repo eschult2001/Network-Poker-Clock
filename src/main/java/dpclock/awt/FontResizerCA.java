@@ -1,4 +1,6 @@
 /**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
  * 
  */
 package dpclock.awt;
@@ -37,12 +39,12 @@ public class FontResizerCA extends ComponentAdapter implements PropertyChangeLis
 
 	
 	@Override
-	public void componentResized(ComponentEvent evt) {
+	public final void componentResized(ComponentEvent evt) {
 		doResize((JComponent)evt.getComponent());
 	}
 	
 	@Override
-	public void componentShown(ComponentEvent evt) {
+	public final void componentShown(ComponentEvent evt) {
 		doResize((JComponent)evt.getComponent());
 	}
 
@@ -56,13 +58,14 @@ public class FontResizerCA extends ComponentAdapter implements PropertyChangeLis
 		}
 	}
 	
-	public void doResize(JComponent c) {
+	public final void doResize(JComponent c) {
 		
 		int width = c.getWidth() - pad;
 		int height = c.getHeight() - pad;
 
-		if (width<1 || height<1)
+		if (width<1 || height<1) {
 			return;
+		}
 		
 		Insets i = c.getInsets();
 		width = width - i.left - i.right;
@@ -83,8 +86,9 @@ public class FontResizerCA extends ComponentAdapter implements PropertyChangeLis
 	
 	public void doResize(JComponent c, int windowWidthMax, int windowHeightMax, String text) {
 
-		if (!c.isShowing())
+		if (!c.isShowing()) {
 			return;
+		}
 		
 		Font currentFont = c.getFont();
 		int windowHeightLow = (int) (windowHeightMax * fontFitPercent);
@@ -122,42 +126,42 @@ public class FontResizerCA extends ComponentAdapter implements PropertyChangeLis
 		//System.out.println("New Font: "+newFont);
 	}
 
-	public String getClockWidthMaxString() {
+	public final String getClockWidthMaxString() {
 		return clockWidthMaxString;
 	}
 
-	public void setClockWidthMaxString(String clockWidthMaxString) {
+	public final void setClockWidthMaxString(String clockWidthMaxString) {
 		this.clockWidthMaxString = clockWidthMaxString;
 	}
 
-	public double getFontFitPercent() {
+	public final double getFontFitPercent() {
 		return fontFitPercent;
 	}
 
-	public void setFontFitPercent(double fontFitPercent) {
+	public final void setFontFitPercent(double fontFitPercent) {
 		this.fontFitPercent = fontFitPercent;
 	}
 	
-	public int getMaxFontSize() {
+	public final int getMaxFontSize() {
 		return maxFontSize;
 	}
 	
-	public void setMaxFontSize(int maxFontSize) {
+	public final void setMaxFontSize(int maxFontSize) {
 		this.maxFontSize = maxFontSize;
 	}
 	
-	public int getMinFontSize() {
+	public final int getMinFontSize() {
 		return minFontSize;
 	}
 	
-	public void setMinFontSize(int minFontSize) {
+	public final void setMinFontSize(int minFontSize) {
 		this.minFontSize = minFontSize;
 	}
 
-	public int getPad() {
+	public final int getPad() {
 		return pad;
 	}
-	public void setPad(int pad) {
+	public final void setPad(int pad) {
 		this.pad = pad;
 	}
 }

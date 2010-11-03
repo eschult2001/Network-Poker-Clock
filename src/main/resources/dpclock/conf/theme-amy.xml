@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- (c)2010 Eric Schult -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
     xmlns:aop="http://www.springframework.org/schema/aop"
@@ -15,7 +16,6 @@
 		<property name="stopWatchBean" ref="dpclock.service.TournamentControllerImpl"></property>
 		<property name="events">
 			<util:map key-type="java.lang.String" value-type="java.lang.String">
-				<entry key="action.Start"          value="/dpclock/res/audio/amy/72872_Corsica_S_shuffle_deal.wav"/>
 				<entry key="state.2.1"             value="/dpclock/res/audio/amy/72966_Corsica_S_resumed.wav"/>
 				<entry key="state.2"               value="/dpclock/res/audio/amy/72869_Corsica_S_paused.wav"/>
 				<entry key="timeRemaining.121.120" value="/dpclock/res/audio/amy/85031_Corsica_S_2_minutes.wav"/>
@@ -31,7 +31,7 @@
 				<entry key="timeRemaining.4.3"     value="/dpclock/res/audio/amy/amy03.wav" />
 				<entry key="timeRemaining.3.2"     value="/dpclock/res/audio/amy/amy02.wav" />
 				<entry key="timeRemaining.2.1"     value="/dpclock/res/audio/amy/amy01.wav" />
-				<entry key="timeRemaining.1.0"     value="/dpclock/res/audio/amy/amy00.wav" />
+				<entry key="timeRemaining.1.0"     value="/dpclock/res/audio/amy/85033_Corsica_S_time.wav" />
 			</util:map>
 		</property>
 	</bean>

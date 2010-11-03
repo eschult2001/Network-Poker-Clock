@@ -1,8 +1,14 @@
+/**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
+ * 
+ */
 package dpclock.service;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +25,7 @@ import org.jgroups.blocks.MethodCall;
 import org.jgroups.blocks.RequestOptions;
 import org.jgroups.blocks.RpcDispatcher;
 import org.jgroups.util.RspList;
+import org.springframework.beans.MethodInvocationException;
 import org.springframework.beans.factory.InitializingBean;
 
 import dpclock.schema.LevelBean;
@@ -30,10 +37,15 @@ import dpclock.ui.stopwatch.StopWatchBeanImpl;
 
 public class TournamentControllerImpl implements InternalStateBean, StopWatchBean, PropertyChangeListener, TournamentController {
 
+	/**
+	 * 
+	 */
+	private static final String METHOD_RESTORE_INTERNAL_STATE = "restoreInternalState";
+
 	private static final Log log = LogFactory.getLog(TournamentControllerImpl.class);
 
 	private StopWatchBeanImpl stopWatchBean = new StopWatchBeanImpl(); 
-	private MutableComboBoxModel levels = new DefaultComboBoxModel(new TournamentLevelBean[]{
+	private DefaultComboBoxModel levels = new DefaultComboBoxModel(new TournamentLevelBean[]{
 			new TournamentLevelBean()
 	});
 	private Tournament settings = null; 
@@ -41,17 +53,12 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	private SwingPropertyChangeSupport pcs = new SwingPropertyChangeSupport(this,true);
 	private String tournamentName; 
 	
-	private static final Class<?>[] EMPTY_CLASS_ARRAY = new Class<?>[0];
-	private static final Object[]  EMPTY_OBJECT_ARRAY = new Object[0];
-	
 	private static final Method restoreInternalStateMethod;
-	private static final Method saveInternalStateMethod;
 	static {
 		try {
-			restoreInternalStateMethod = TournamentControllerImpl.class.getMethod("restoreInternalState", Serializable.class);
-			saveInternalStateMethod = TournamentControllerImpl.class.getMethod("saveInternalState", EMPTY_CLASS_ARRAY);
-		} catch (Exception e) {
-			throw new RuntimeException("Could not find method", e);
+			restoreInternalStateMethod = TournamentControllerImpl.class.getMethod(METHOD_RESTORE_INTERNAL_STATE, Serializable.class);
+		} catch (NoSuchMethodException e) {
+			throw new IllegalArgumentException("Could not locate the '"+METHOD_RESTORE_INTERNAL_STATE+"(Serializable)' method on the TournamentControllerImpl class",e);
 		}
 	}
 
@@ -59,10 +66,10 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	 * RpcDispatcher property get
 	 * @return
 	 */
-	public RpcDispatcher getRpcDispatcher() {
+	public final RpcDispatcher getRpcDispatcher() {
 		return rpcDispatcher;
 	}
-	public void setRpcDispatcher(RpcDispatcher rpcDispatcher) {
+	public final void setRpcDispatcher(RpcDispatcher rpcDispatcher) {
 		this.rpcDispatcher = rpcDispatcher;
 	}
 	
@@ -72,10 +79,10 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	 * 
 	 * @return
 	 */
-	public String getTournamentName() {
+	public final String getTournamentName() {
 		return tournamentName;
 	}
-	public void setTournamentName(String tournamentName) {
+	public final void setTournamentName(String tournamentName) {
 		pcs.firePropertyChange("tournamentName", this.tournamentName, this.tournamentName = tournamentName);
 	}
 	
@@ -85,7 +92,7 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	 * 
 	 * @return
 	 */
-	public StopWatchBean getStopWatchBean() {
+	public final StopWatchBean getStopWatchBean() {
 		return stopWatchBean;
 	}
 	
@@ -95,14 +102,9 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	 * 
 	 * @return
 	 */
-	public MutableComboBoxModel getLevels() {
+	public final MutableComboBoxModel getLevels() {
 		return levels;
 	}
-	public void setLevels(MutableComboBoxModel levels) {
-		this.levels = levels;
-		levels.setSelectedItem(levels.getElementAt(0));
-	}
-
 	
 	
 	/**
@@ -110,7 +112,7 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	 * 
 	 * @return
 	 */
-	public Tournament getSettings() {
+	public final Tournament getSettings() {
 		return settings;
 	}
 
@@ -119,7 +121,7 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	 * 
 	 * @param settings  {@link Tournament} object
 	 */
-	public void setSettings(Tournament settings) {
+	public final void setSettings(Tournament settings) {
 		this.settings = settings;
 	}
 
@@ -131,7 +133,7 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	 * @return {@link LevelBean} representing current level.  If <code>null</code> then something is wrong
 	 */
 	@Override
-	public LevelBean getLevel() {
+	public final LevelBean getLevel() {
 		return (LevelBean) levels.getSelectedItem();
 	}	
 	/**
@@ -140,7 +142,7 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	 * @param {{@link LevelBean} new level
 	 * @param level
 	 */
-	public void setLevel(LevelBean level) {
+	public final void setLevel(LevelBean level) {
 		levels.setSelectedItem(level);
 		setTime(level.getTime());
 	}
@@ -161,25 +163,24 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		System.out.println(evt.getSource() + "[" + evt.getPropertyName() + "] "
+		log.debug(evt.getSource() + "[" + evt.getPropertyName() + "] "
 				+ evt.getOldValue() + "->" + evt.getNewValue());
-		//if (evt.getSource().equals(stopWatchBean)) {
-			boolean handled = false;
-			if (StopWatchBean.PROP_TIMELEFT.equals(evt.getPropertyName())
-					&& ((Integer) evt.getNewValue()).intValue() == 0
-					&& stopWatchBean.isRunning()) {
 
-				pcs.firePropertyChange(evt.getPropertyName(),
-						evt.getOldValue(), evt.getNewValue());
+		boolean handled = false;
+		if (StopWatchBean.PROP_TIMELEFT.equals(evt.getPropertyName())
+				&& ((Integer) evt.getNewValue()).intValue() == 0
+				&& stopWatchBean.isRunning()) {
 
-				nextLevel();
-				handled = true;
-			}
-			if (!handled) {
-				pcs.firePropertyChange(evt.getPropertyName(),
-						evt.getOldValue(), evt.getNewValue());
-			}
-		//}
+			pcs.firePropertyChange(evt.getPropertyName(), evt.getOldValue(),
+					evt.getNewValue());
+
+			nextLevel();
+			handled = true;
+		}
+		if (!handled) {
+			pcs.firePropertyChange(evt.getPropertyName(), evt.getOldValue(),
+					evt.getNewValue());
+		}
 	}
 	
 	/**
@@ -189,26 +190,23 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	 * 
 	 * @return
 	 */
-	private LevelBean safeCurrentLevel() {
-		Object curr = levels.getSelectedItem();
-		if (curr==null) {
-			curr = levels.getElementAt(0);
-		}
-		return (LevelBean) curr;
+	private final LevelBean safeCurrentLevel() {
+		LevelBean curr = (LevelBean) levels.getSelectedItem();
+		return  curr != null ? curr : (LevelBean)levels.getElementAt(0);
 	}
 	
 	@Override
 	public void nextLevel() {
 		LevelBean nextLevelBean = safeCurrentLevel().getNext();
 		if (nextLevelBean != null) {
-			if (nextLevelBean.getTime() <= 0)
+			if (nextLevelBean.getTime() <= 0 )
 				pause();
 			setLevel(nextLevelBean);
 		}
 	}
 
 	@Override
-	public void prevLevel() {
+	public final void prevLevel() {
 		LevelBean prevLevelBean = safeCurrentLevel().getPrev();
 		if (prevLevelBean != null) {
 			setLevel(prevLevelBean);
@@ -216,7 +214,7 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	}
 
 	@PostConstruct
-	public void afterPropertiesSet() throws Exception {
+	public final void init() throws Exception {
 		stopWatchBean.addPropertyChangeListener(this);
 		if (settings!=null) {
 			loadSettings(settings);
@@ -228,8 +226,7 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	
 	
 
-	public void doResetClock() {
-		//stopWatchBean.stop();
+	public final void doResetClock() {
 		stopWatchBean.setTimeLeft(getLevel().getTime());
 	}
 	
@@ -239,23 +236,10 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 		public int level = 0;
 		public Serializable stopWatchState;
 	}
-
-	private int getIndexOf(Object o) {
-		int size = levels.getSize();
-		for(int i=0; i<size; i++) {
-			if (levels.getElementAt(i).equals(o)) {
-				return i;
-			}
-		}
-		return 0;
-	}
 	
-	public void loadSettings(Tournament newt) {
+	public final void loadSettings(final Tournament t) {
 		
 		log.info(">> loadSettings()");
-		
-		final MutableComboBoxModel model = this.levels;
-		final Tournament t = newt;
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			
@@ -263,9 +247,7 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 			public void run() {
 				setTournamentName(t.getTournamentName());
 				
-				//fix level prev/next and add them to the comboboxmodel
-				while(model.getSize()>0) 
-					model.removeElementAt(0);
+				levels.removeAllElements();
 
 				LevelBean prev = null;
 				for(LevelBean l : t.getLevels()) {
@@ -274,41 +256,36 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 						prev.setNext(l);
 					}
 					prev = l;
-					model.addElement(l);
+					levels.addElement(l);
 				}
-				model.setSelectedItem(t.getCurrentLevel());
-				
+				levels.setSelectedItem(t.getCurrentLevel());
+				stop();
 				doResetClock();
 			}
 		});
 	}
 	
-	public void syncStates() {
+	public final void syncStates() {
 		log.info(">> syncStates()");
-		
 		Serializable state = saveInternalState();
 		MethodCall mc = new MethodCall(restoreInternalStateMethod, new Object[]{state});
-		try {
-			rpcDispatcher.callRemoteMethods(null, mc, RequestOptions.ASYNC);
-		} catch (Throwable e1) {
-			e1.printStackTrace();
-		}
+		rpcDispatcher.callRemoteMethods(null, mc, RequestOptions.ASYNC);
 	}
 	
 	@Override
-	public Serializable saveInternalState() {
+	public final Serializable saveInternalState() {
 		log.info(">> saveInternalState()");
-		InternalState is = new InternalState();
-		is.level = getIndexOf(levels.getSelectedItem());
+		final InternalState is = new InternalState();
+		is.level = levels.getIndexOf(levels.getSelectedItem());
 		is.stopWatchState = stopWatchBean.saveInternalState();
 		return is;
 	}
 
 	@Override
-	public void restoreInternalState(Serializable s) {
+	public final void restoreInternalState(Serializable s) {
 		log.info(">> restoreInternalState()");
 		if (s instanceof InternalState) {
-			InternalState is = (InternalState)s;
+			final InternalState is = (InternalState)s;
 			levels.setSelectedItem(levels.getElementAt(is.level));
 			stopWatchBean.restoreInternalState(is.stopWatchState);
 		}
@@ -318,31 +295,31 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	
 	// StopWatchBean.java
 	
-	public int getState() {
+	public final int getState() {
 		return stopWatchBean.getState();
 	}
-	public int getTimeLeft() {
+	public final int getTimeLeft() {
 		return stopWatchBean.getTimeLeft();
 	}
-	public boolean isRunning() {
+	public final boolean isRunning() {
 		return stopWatchBean.isRunning();
 	}
-	public boolean isPaused() {
+	public final boolean isPaused() {
 		return stopWatchBean.isPaused();
 	}
-	public boolean isStopped() {
+	public final boolean isStopped() {
 		return stopWatchBean.isStopped();
 	}
-	public void stop() {
+	public final void stop() {
 		stopWatchBean.stop();
 	}
-	public void start() {
+	public final void start() {
 		stopWatchBean.start();
 	}
-	public void pause() {
+	public final void pause() {
 		stopWatchBean.pause();
 	}
-	public int togglePause() {
+	public final int togglePause() {
 		if (isPaused() && getTimeLeft()==0)
 			nextLevel();
 		return stopWatchBean.togglePause();
@@ -352,25 +329,33 @@ public class TournamentControllerImpl implements InternalStateBean, StopWatchBea
 	
 	
 	// Property Change Support
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
+	public final void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(listener);
 	}
-	public void addPropertyChangeListener(String propertyName,
+	public final void addPropertyChangeListener(String propertyName,
 			PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(propertyName, listener);
 	}
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
+	public final void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
 	}
-	public void removePropertyChangeListener(String propertyName,
+	public final void removePropertyChangeListener(String propertyName,
 			PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(propertyName, listener);
 	}
 	
 	@Override
-	public void setTime(int newtime) {
+	public final void setTime(final int newtime) {
 		stopWatchBean.setTimeLeft(newtime);
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see dpclock.service.TournamentController#doExit()
+	 */
+	@Override
+	public final void doExit() {
+		stopWatchBean.stop();
+		rpcDispatcher.getChannel().close();		
+	}
 }

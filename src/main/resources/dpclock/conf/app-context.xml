@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- (c)2010 Eric Schult -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
@@ -202,20 +203,6 @@
 							</constructor-arg>
 							<constructor-arg><bean parent="GBC.row7" p:gridx="1" p:gridwidth-ref="GridBagConstraints.REMAINDER"/></constructor-arg>
 						</bean>
-						
-						<!--<bean class="dpclock.ui.BoxLayoutPanel" p:axis-ref="BoxLayout.X_AXIS">
-							<property name="panelComponents">
-								<list>
-									<bean id="previousLevelButton" class="dpclock.ui.ActionListenerButton"
-										p:action-ref="dpclock.actions.PreviousLevelAction" />
-									<bean id="nextLevelButton" class="dpclock.ui.ActionListenerButton"
-										p:action-ref="dpclock.actions.NextLevelAction" />
-									<bean id="pauseButton" class="dpclock.ui.ActionListenerButton"
-										p:action-ref="dpclock.actions.PauseAction" />
-								</list>
-							</property>
-						</bean>-->
-
 					</list>
 				</property>
 			</bean>
@@ -262,19 +249,11 @@
 		p:tournamentController-ref="dpclock.service.TournamentController" />
 	<bean id="dpclock.actions.LevelSelectedAction" class="dpclock.actions.LevelSelectedAction"
 		p:tournamentController-ref="dpclock.service.TournamentController" />
-	<bean id="dpclock.actions.ExitAction" class="dpclock.actions.ExitAction" />
+	<bean id="dpclock.actions.ExitAction" class="dpclock.actions.ExitAction" 
+		p:tournamentController-ref="dpclock.service.TournamentController" />
 
 	<!-- MISC -->
 	
-	<util:constant id="Font.BOLD"			static-field="java.awt.Font.BOLD" />
-	<util:constant id="Font.PLAIN"			static-field="java.awt.Font.PLAIN" />
-	<util:constant id="Font.ITALIC"			static-field="java.awt.Font.ITALIC" />
-	<util:constant id="Font.BOLDITALIC"		static-field="dpclock.awt.FontFactory.BOLDITALIC" />
-	<util:constant id="Font.TRUETYPE_FONT"	static-field="java.awt.Font.TRUETYPE_FONT" />
-	<util:constant id="Font.TYPE1_FONT"		static-field="java.awt.Font.TYPE1_FONT" />
-
-	<util:constant id="BoxLayout.X_AXIS"	static-field="javax.swing.BoxLayout.X_AXIS" />
-	<util:constant id="BoxLayout.Y_AXIS"	static-field="javax.swing.BoxLayout.Y_AXIS" />
 	<util:constant id="JLabel.LEADING" 		static-field="javax.swing.JLabel.LEADING" />
 	<util:constant id="JLabel.TRAILING" 	static-field="javax.swing.JLabel.TRAILING" />
 	<util:constant id="SwingConstants.LEFT" static-field="javax.swing.SwingConstants.LEFT" />
@@ -282,8 +261,6 @@
 	<util:constant id="SwingConstants.RIGHT" static-field="javax.swing.SwingConstants.RIGHT" />
 	<util:constant id="Color.BLACK" 		static-field="java.awt.Color.BLACK" />
 	<util:constant id="Color.WHITE" 		static-field="java.awt.Color.WHITE" />
-	<util:constant id="JSplitPane.HORIZONTAL_SPLIT"
-		static-field="javax.swing.JSplitPane.HORIZONTAL_SPLIT" />
 
 	<util:constant id="GridBagConstraints.RELATIVE" static-field="java.awt.GridBagConstraints.RELATIVE" />
 	<util:constant id="GridBagConstraints.REMAINDER" static-field="java.awt.GridBagConstraints.REMAINDER" />
@@ -304,18 +281,14 @@
 		p:font-ref="Font.value"
 		p:horizontalAlignment-ref="SwingConstants.CENTER" p:propertySource-ref="levelListModel"
  		p:text="-" />
- 		<!--
- 		p:propertyChangeListener-ref="dpclock.awt.FontResizerCA"
-		p:componentListener-ref="dpclock.awt.FontResizerCA"
-		-->
 
 	<bean id="Label.absNextValue" parent="Label.absValue"
 		p:font-ref="Font.valueNext" />
 		
 	<!-- Model objects -->	
-	<bean id="levelListModel" class="javax.swing.DefaultComboBoxModel">
-<!--		<constructor-arg ref="levelItems"/>-->
-	</bean>
+	<bean id="levelListModel"
+		factory-bean="dpclock.service.TournamentControllerImpl"
+		factory-method="getLevels"/>
 
 	<!-- Controllers -->
 	<bean id="dpclock.service.TournamentController" class="dpclock.service.remote.TournamentRemoteProxy"
@@ -323,7 +296,6 @@
 		p:controller-ref="dpclock.service.TournamentControllerImpl"/>
 	
 	<bean id="dpclock.service.TournamentControllerImpl" class="dpclock.service.TournamentControllerImpl"
-		p:levels-ref="levelListModel"
 		p:rpcDispatcher-ref="org.jgroups.blocks.RpcDispatcher"
 		p:settings-ref="tournamentSettings"/>
 	
@@ -346,9 +318,10 @@
             <list>
                 <value>dpclock.schema.Tournament</value>
                 <value>dpclock.schema.TournamentLevelBean</value>                
+                <value>dpclock.schema.BreakLevelBean</value>                
             </list>
         </property>
-<!--        <property name="schema" value="file:./tournament.xsd"/>-->
+        <property name="schema" value="file:./tournament.xsd"/>
     </bean>
 
 	<!-- Starting tournament settings -->

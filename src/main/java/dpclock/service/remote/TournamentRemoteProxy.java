@@ -1,3 +1,8 @@
+/**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
+ * 
+ */
 package dpclock.service.remote;
 
 import java.beans.PropertyChangeListener;
@@ -11,93 +16,101 @@ public class TournamentRemoteProxy implements TournamentController {
 
 	private TournamentControllerImpl controller;
 
-	public void setController(TournamentControllerImpl controller) {
+	public final void setController(final TournamentControllerImpl controller) {
 		this.controller = controller;
 	}
 
-	public LevelBean getLevel() {
+	public final LevelBean getLevel() {
 		return controller.getLevel();
 	}
 
-	public void setLevel(LevelBean level) {
+	public final void setLevel(final LevelBean level) {
 		controller.setLevel(level);
 		controller.syncStates();
 	}
 
-	public void nextLevel() {
+	public final void nextLevel() {
 		controller.nextLevel();
 		controller.syncStates();
 	}
 
-	public void prevLevel() {
+	public final void prevLevel() {
 		controller.prevLevel();
 		controller.syncStates();
 	}
 
-	public int getState() {
+	public final int getState() {
 		return controller.getState();
 	}
 
-	public int getTimeLeft() {
+	public final int getTimeLeft() {
 		return controller.getTimeLeft();
 	}
 	
 	@Override
-	public void setTime(int newtime) {
+	public final void setTime(int newtime) {
 		controller.setTime(newtime);
 		controller.syncStates();
 	}
 
-	public boolean isRunning() {
+	public final boolean isRunning() {
 		return controller.isRunning();
 	}
 
-	public boolean isPaused() {
+	public final boolean isPaused() {
 		return controller.isPaused();
 	}
 
-	public boolean isStopped() {
+	public final boolean isStopped() {
 		return controller.isStopped();
 	}
 
-	public void stop() {
+	public final void stop() {
 		controller.stop();
 		controller.syncStates();
 	}
 
-	public void start() {
+	public final void start() {
 		controller.start();
 		controller.syncStates();
 	}
 
-	public void pause() {
+	public final void pause() {
 		controller.pause();
 		controller.syncStates();
 	}
 
-	public int togglePause() {
+	public final int togglePause() {
 		int ret = controller.togglePause();
 		controller.syncStates();
 		return ret;
 	}
 
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
+	/* (non-Javadoc)
+	 * @see dpclock.service.TournamentController#doExit()
+	 */
+	@Override
+	public final void doExit() {
+		controller.doExit();
+		
+	};
+
+	public final void addPropertyChangeListener(PropertyChangeListener listener) {
 		controller.addPropertyChangeListener(listener);
 	}
 
-	public void addPropertyChangeListener(String propertyName,
+	public final void addPropertyChangeListener(String propertyName,
 			PropertyChangeListener listener) {
 		controller.addPropertyChangeListener(propertyName, listener);
 	}
 
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
+	public final void removePropertyChangeListener(PropertyChangeListener listener) {
 		controller.removePropertyChangeListener(listener);
 	}
 
-	public void removePropertyChangeListener(String propertyName,
+	public final void removePropertyChangeListener(String propertyName,
 			PropertyChangeListener listener) {
 		controller.removePropertyChangeListener(propertyName, listener);
 	}
 
-	
 }

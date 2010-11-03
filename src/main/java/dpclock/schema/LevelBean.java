@@ -1,3 +1,8 @@
+/**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
+ * 
+ */
 package dpclock.schema;
 
 import java.io.Serializable;
@@ -12,11 +17,8 @@ public abstract class LevelBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	protected String name = "Unknown Level";
 	protected int time = 15*60;
-	protected int ante = 0;
-	protected int smallBlind = 25;
-	protected int bigBlind = 50;
 	protected String note = null;
-	protected boolean autoNext = true;
+
 	protected transient LevelBean prev = this;
 	protected transient LevelBean next = this;
 
@@ -26,83 +28,49 @@ public abstract class LevelBean implements Serializable {
 
 	@XmlAttribute()
 	@XmlID
-	public String getName() {
+	public final String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public final void setName(String name) {
 		this.name = name;
 	}
 	
 	@XmlAttribute(name = "seconds")
-	public int getTime() {
-		return time;
-	}
-
-	public void setTime(int time) {
+	public final int getTime() { return time; }
+	public final void setTime(final int time) {
 		this.time = time;
 	}
 
-	@XmlAttribute
-	public int getAnte() {
-		return ante;
-	}
+	public abstract int getAnte();
+	//public abstract void setAnte(int ante);
 
-	public void setAnte(int ante) {
-		this.ante = ante;
-	}
+	public abstract int getSmallBlind();
+	//public abstract void setSmallBlind(int smallBlind);
 
-	@XmlAttribute
-	public int getSmallBlind() {
-		return smallBlind;
-	}
-
-	public void setSmallBlind(int smallBlind) {
-		this.smallBlind = smallBlind;
-	}
-
-	@XmlAttribute
-	public int getBigBlind() {
-		return bigBlind;
-	}
-
-	public void setBigBlind(int bigBlind) {
-		this.bigBlind = bigBlind;
-	}
+	public abstract int getBigBlind();
+	//public abstract void setBigBlind(int bigBlind);
 
 	@XmlElement(required = false)
-	public String getNote() {
-		return note;
-	}
-
-	public void setNote(String note) {
+	public final String getNote() {return note;}
+	public final void setNote(final String note) {
 		this.note = note;
 	}
 
-	@XmlAttribute()
-	public boolean getAutoNext() {
-		return this.autoNext;
-	}
-
-	public void setAutoNext(boolean autoNext) {
-		this.autoNext = autoNext;
-	}
 
 	@XmlTransient
-	public LevelBean getNext() {
-		return next;
-	}
+	public abstract boolean getAutoNext();
 
-	public void setNext(LevelBean next) {
+
+	@XmlTransient
+	public final LevelBean getNext() { return next; }
+	public final void setNext(LevelBean next) {
 		this.next = next;
 	}
 
 	@XmlTransient
-	public LevelBean getPrev() {
-		return prev;
-	}
-
-	public void setPrev(LevelBean prev) {
+	public final LevelBean getPrev() { return prev; }
+	public final void setPrev(final LevelBean prev) {
 		this.prev = prev;
 	}
 

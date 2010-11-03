@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ns2:tournament xmlns:ns2="uri:dpclock:tournamentSettings">
+<ns2:tournament xmlns:ns2="uri:dpclock:tournamentSettings"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="uri:dpclock:tournamentSettings tournament.xsd">
 	<name>MWPT Monthly Bounty Tourney</name>
 	<startingLevel>Level 1</startingLevel>
 	<levels>
@@ -9,7 +11,7 @@
 		<level name="Level 4"	smallBlind="100"	bigBlind="200"		ante="25" 		seconds="900"/>
 		<level name="Level 5"	smallBlind="200"	bigBlind="400"		ante="50" 		seconds="900"/>
 		<level name="Level 6"	smallBlind="300"	bigBlind="600"		ante="75" 		seconds="900"/>
-		<break name="Break 1">
+		<break name="Break">
 			<note>Chip-up 25s &amp; 50s</note>
 		</break>	
 		<level name="Level 7"	smallBlind="400"	bigBlind="800"		ante="100" 		seconds="900"/>
@@ -18,7 +20,10 @@
 		<level name="Level 10"	smallBlind="1000"	bigBlind="2000"		ante="300" 		seconds="900"/>
 		<level name="Level 11"	smallBlind="1500"	bigBlind="3000"		ante="500" 		seconds="900"/>
 		<level name="Level 12"	smallBlind="2000"	bigBlind="4000"		ante="500" 		seconds="900"/>
-		<break name="Break 1">
+		<break name="Break">
+			<note>Chip-up 100s &amp; 500s</note>
+		</break>	
+		<break name="Break">
 			<note>Chip-up 100s &amp; 500s</note>
 		</break>	
 		<level name="Level 13"	smallBlind="3000"	bigBlind="6000"		ante="1000" 	seconds="900"/>
@@ -27,5 +32,8 @@
 		<level name="Level 16"	smallBlind="8000"	bigBlind="16000"	ante="3000" 	seconds="900"/>
 		<level name="Level 17"	smallBlind="10000"	bigBlind="20000"	ante="3000" 	seconds="900"/>
 		<level name="Level 18"	smallBlind="15000"	bigBlind="30000"	ante="5000" 	seconds="900"/>
+		<break name="Break">
+			<note>Chip-up 100s &amp; 500s</note>
+		</break>
 	</levels>
 </ns2:tournament>

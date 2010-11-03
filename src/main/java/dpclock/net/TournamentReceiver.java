@@ -1,3 +1,8 @@
+/**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
+ * 
+ */
 package dpclock.net;
 
 import java.io.Serializable;

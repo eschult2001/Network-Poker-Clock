@@ -1,3 +1,9 @@
+/**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
+ * 
+ */
+
 package dpclock.actions;
 
 import java.awt.event.ActionEvent;
@@ -18,7 +24,7 @@ public class LevelSelectedAction extends AbstractTournamentAction {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public final void actionPerformed(ActionEvent e) {
 		JComboBox cb = (JComboBox)e.getSource();
 		LevelBean level = (LevelBean) cb.getSelectedItem();
 

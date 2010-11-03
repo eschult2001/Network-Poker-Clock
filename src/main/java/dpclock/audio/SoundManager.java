@@ -1,3 +1,8 @@
+/**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
+ * 
+ */
 package dpclock.audio;
 
 import java.beans.PropertyChangeEvent;
@@ -14,26 +19,30 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 
 import dpclock.ui.stopwatch.StopWatchBean;
 
 public class SoundManager implements PropertyChangeListener {
 
+	private static final Log log = LogFactory.getLog(SoundManager.class);
+
 	private Map<String, Object> events = new HashMap<String, Object>();
 
 	private StopWatchBean stopWatchBean;
 
-	public void setEvents(Map<String, Object> events) {
+	public final void setEvents(Map<String, Object> events) {
 		this.events = events;
 	}
 
-	public void setStopWatchBean(StopWatchBean stopWatchBean) {
+	public final void setStopWatchBean(StopWatchBean stopWatchBean) {
 		this.stopWatchBean = stopWatchBean;
 	}
 
 	@PostConstruct
-	public void afterPropertiesSet() throws Exception {
+	public final void afterPropertiesSet() {
 		stopWatchBean.addPropertyChangeListener(this);
 	}
 
@@ -46,7 +55,7 @@ public class SoundManager implements PropertyChangeListener {
 	 * - the clock is still running.
 	 */
 	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
+	public final void propertyChange(PropertyChangeEvent evt) {
 
 			String key = evt.getPropertyName() + "." + evt.getOldValue() + "." + evt.getNewValue();
 			if (!events.containsKey(key)) {
@@ -64,22 +73,22 @@ public class SoundManager implements PropertyChangeListener {
 								.getAudioInputStream(SoundManager.class
 										.getResourceAsStream(o.toString()));
 						clip.open(inputStream);
-						System.out.println("Loaded Clip: " + clip.getFormat());
+						log.debug("Loaded Clip: " + clip.getFormat());
 						events.put(key, clip);
 						o = clip;
 					} catch (LineUnavailableException e) {
-						e.printStackTrace();
+						log.warn("Line Unavailable",e);
 					} catch (UnsupportedAudioFileException e) {
-						e.printStackTrace();
+						log.warn("Unsupported file format",e);
 					} catch (IOException e) {
-						e.printStackTrace();
+						log.warn("Problem reading/writing file",e);
 					}
 				}
 				
 				((Clip) o).setFramePosition(0);
 				((Clip) o).start();
 
-				System.out.println("Playing: " + o);
+				log.debug("Playing: " + o);
 			}
 
 	}

@@ -1,3 +1,8 @@
+/**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
+ * 
+ */
 package dpclock.net;
 import org.jgroups.Channel;
 import org.jgroups.ChannelException;
@@ -9,22 +14,23 @@ import org.springframework.beans.factory.config.AbstractFactoryBean;
 /**
  * @author 
  */
-public class ChannelBeanFactory extends AbstractFactoryBean<JChannel> implements DisposableBean {
+public class ChannelBeanFactory extends AbstractFactoryBean<JChannel> {
     private String jGroupsConfig;
     private String clusterName;
     private Receiver receiver;
     private boolean autoConnect = true;
     
 	@Override
-	public Class<?> getObjectType() {
+	public final Class<?> getObjectType() {
 		return JChannel.class;
 	}
 
-    protected JChannel createInstance() throws ChannelException{
+    protected final JChannel createInstance() throws ChannelException{
 
         JChannel jChannel = new JChannel(jGroupsConfig);
-        if (receiver != null)
+        if (receiver != null) {
         	jChannel.setReceiver(receiver);
+        }
         if (autoConnect && clusterName!=null) {
 	        	jChannel.connect(clusterName, true);
         }
@@ -32,25 +38,23 @@ public class ChannelBeanFactory extends AbstractFactoryBean<JChannel> implements
         return jChannel;
     }
 
+    protected final void destroyInstance(final JChannel instance) throws Exception {
+        instance.close();
+        super.destroyInstance(instance);
+    }
+
+    
     // SETTERS
-    public void setJgroupsConfig(String jgroupsconfig) {
+    public final void setJgroupsConfig(final String jgroupsconfig) {
         this.jGroupsConfig = jgroupsconfig;
     }
 
-    public void setClusterName(String cluster_name) {
+    public final void setClusterName(final String cluster_name) {
         this.clusterName = cluster_name;
     }
     
-    public void setReceiver(Receiver receiver) {
+    public final void setReceiver(final Receiver receiver) {
 		this.receiver = receiver;
 	}
 
-    protected void destroyInstance(JChannel instance) throws Exception {
-        super.destroyInstance(instance);
-        instance.close();
-    }
-
-    public void destroy() throws Exception {
-        super.destroy();    
-    }
 }

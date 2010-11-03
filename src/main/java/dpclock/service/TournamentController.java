@@ -1,3 +1,8 @@
+/**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
+ * 
+ */
 package dpclock.service;
 
 import dpclock.schema.LevelBean;
@@ -6,12 +11,14 @@ import dpclock.ui.stopwatch.StopWatchBean;
 public interface TournamentController extends StopWatchBean {
 
 	
-	public LevelBean getLevel();
-	public void setLevel(LevelBean level);
-	public void setTime(int newtime);
+	LevelBean getLevel();
+	void setLevel(LevelBean level);
+	void setTime(int newtime);
 
-	public void nextLevel();
-	public void prevLevel();
+	void nextLevel();
+	void prevLevel();
+
+	void doExit();
 
 
 }

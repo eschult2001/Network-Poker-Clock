@@ -1,8 +1,15 @@
-package dpclock;
+/**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
+ * 
+ */
 
+package dpclock;
 
 public class DPClock {
 
+	private DPClock() {}
+	
 	/**
 	 * @param args
 	 */

@@ -1,5 +1,9 @@
+/**
+ * (c)2010 Eric Schult
+ * All Rights Reserved
+ * 
+ */
 package dpclock.actions;
-
 import java.awt.event.ActionEvent;
 
 import javax.swing.JOptionPane;
@@ -17,13 +21,13 @@ public class SetTimeAction extends AbstractTournamentAction {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		tournamentController.stop();
+	public final void actionPerformed(ActionEvent e) {
+		//tournamentController.stop();
 		String newTime = JOptionPane.showInputDialog(parentComponent,"Specify time to set on clock (MM:SS)");
 		tournamentController.setTime(parseTime(newTime));
 	}
 	
-	public void setParentComponent(java.awt.Component parentComponent) {
+	public final void setParentComponent(java.awt.Component parentComponent) {
 		this.parentComponent = parentComponent;
 		
 	}

@@ -1,14 +1,18 @@
+/**
+ * (c)2010 Eric Schult 
+ * All Rights Reserved
+ * 
+ */
+
 package dpclock.actions;
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class ExitAction extends AbstractAction implements Action {
+public class ExitAction extends AbstractTournamentAction {
 
 	private static final long serialVersionUID = 3819944170793907572L;
 
@@ -17,7 +21,10 @@ public class ExitAction extends AbstractAction implements Action {
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		System.exit(0);
+	public final void actionPerformed(ActionEvent e) {
+		tournamentController.doExit();
+		for(Frame frame: Frame.getFrames()) {
+			frame.dispose();
+		}
 	}
 }
