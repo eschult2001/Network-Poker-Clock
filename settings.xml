@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:tournament xmlns:ns2="uri:dpclock:tournamentSettings">
+	<name>MWPT Monthly Bounty Tourney</name>
+	<startingLevel>Level 1</startingLevel>
+	<leveltime>0</leveltime>
+	<breaktime>0</breaktime>
+	<levels>
+		<level seconds="900" smallBlind="100" name="Level 1" bigBlind="200"
+			autoNext="true" ante="1" />
+		<level seconds="900" smallBlind="200" name="Level 2" bigBlind="400"
+			autoNext="true" ante="2" />
+		<level seconds="900" smallBlind="400" name="Level 3" bigBlind="800"
+			autoNext="true" ante="4" />
+		<level seconds="900" smallBlind="800" name="Level 4" bigBlind="1600"
+			autoNext="true" ante="8" />
+		<break seconds="0" smallBlind="0" name="Break" bigBlind="0"
+			autoNext="false" ante="0">
+			<note>Chip-up</note>
+		</break>
+	</levels>
+</ns2:tournament>

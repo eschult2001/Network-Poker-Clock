@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+       	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- AUDIO -->
+	<bean id="dpclock.audio.SoundManager" class="dpclock.audio.SoundManager">
+		<property name="stopWatchBean" ref="dpclock.service.TournamentControllerImpl"></property>
+		<property name="events">
+			<util:map key-type="java.lang.Integer" value-type="java.lang.String">
+				<entry key="30" value="/dpclock/res/audio/halo/thrity_seconds_remaining.wav"></entry>
+				<entry key="10" value="/dpclock/res/audio/halo/ten_seconds_remaining.wav"></entry>
+				<entry key="0"  value="/dpclock/res/audio/halo/round_over.wav"></entry>
+			</util:map>
+		</property>
+	</bean>
+</beans>

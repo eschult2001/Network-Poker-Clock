@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+       	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- Data objects -->
+	<bean id="level01" class="dpclock.schema.TournamentLevelBean" p:name="Level 1"
+		p:time="900" p:smallBlind="25" p:bigBlind="50" p:ante="0" 
+		p:next-ref="level02"/>
+	<bean id="level02" class="dpclock.schema.TournamentLevelBean" p:name="Level 2"
+		p:time="900" p:smallBlind="50" p:bigBlind="100" p:ante="0" 
+		p:prev-ref="level01" p:next-ref="break01"/>
+	<bean id="break01" class="dpclock.schema.BreakLevelBean" p:name="Break 1"
+		p:time="0" p:autoNext="false" p:note="Break - Chip up 25s &amp; 50s" 
+		p:prev-ref="level02" p:next-ref="level03"/>
+	<bean id="level03" class="dpclock.schema.TournamentLevelBean" p:name="Level 3"
+		p:time="900" p:smallBlind="100" p:bigBlind="200" p:ante="0"
+		p:prev-ref="break01" />
+			
+	<util:list id="levelItems" list-class="java.util.ArrayList">
+		<ref bean="level01"/>
+		<ref bean="level02"/>
+		<ref bean="break01"/>
+		<ref bean="level03"/>
+	</util:list>
+
+</beans>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+       	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- AUDIO -->
+	<bean id="sounds.amy" class="dpclock.audio.SoundManager">
+		<property name="stopWatchBean" ref="dpclock.service.TournamentControllerImpl"></property>
+		<property name="events">
+			<util:map key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="action.Start"          value="/dpclock/res/audio/amy/72872_Corsica_S_shuffle_deal.wav"/>
+				<entry key="state.2.1"             value="/dpclock/res/audio/amy/72966_Corsica_S_resumed.wav"/>
+				<entry key="state.2"               value="/dpclock/res/audio/amy/72869_Corsica_S_paused.wav"/>
+				<entry key="timeRemaining.121.120" value="/dpclock/res/audio/amy/85031_Corsica_S_2_minutes.wav"/>
+				<entry key="timeRemaining.61.60"   value="/dpclock/res/audio/amy/85029_Corsica_S_1_minute.wav"/>
+				<entry key="timeRemaining.16.15"   value="/dpclock/res/audio/amy/85030_Corsica_S_15_seconds.wav" />
+				<entry key="timeRemaining.11.10"   value="/dpclock/res/audio/amy/amy10.wav" />
+				<entry key="timeRemaining.10.9"    value="/dpclock/res/audio/amy/amy09.wav" />
+				<entry key="timeRemaining.9.8"     value="/dpclock/res/audio/amy/amy08.wav" />
+				<entry key="timeRemaining.8.7"     value="/dpclock/res/audio/amy/amy07.wav" />
+				<entry key="timeRemaining.7.6"     value="/dpclock/res/audio/amy/amy06.wav" />
+				<entry key="timeRemaining.6.5"     value="/dpclock/res/audio/amy/amy05.wav" />
+				<entry key="timeRemaining.5.4"     value="/dpclock/res/audio/amy/amy04.wav" />
+				<entry key="timeRemaining.4.3"     value="/dpclock/res/audio/amy/amy03.wav" />
+				<entry key="timeRemaining.3.2"     value="/dpclock/res/audio/amy/amy02.wav" />
+				<entry key="timeRemaining.2.1"     value="/dpclock/res/audio/amy/amy01.wav" />
+				<entry key="timeRemaining.1.0"     value="/dpclock/res/audio/amy/amy00.wav" />
+			</util:map>
+		</property>
+	</bean>
+</beans>

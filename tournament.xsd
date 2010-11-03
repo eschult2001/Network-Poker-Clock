@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+		xmlns:tns="uri:dpclock:tournamentSettings" 
+		targetNamespace="uri:dpclock:tournamentSettings" 
+		elementFormDefault="qualified">
+	<element name="tournament" >
+		<complexType>
+			<all>
+				<element name="name" 			type="string"/>
+				<element name="startingLevel"	type="string" />
+				<element name="leveltime"		type="int"/>
+				<element name="breaktime"		type="int"/>
+				<element name="levels">
+					<complexType>
+						<choice maxOccurs="unbounded">
+							<element name="level">
+								<complexType>
+									<attribute name="name" type="string" />
+									<attribute name="smallBlind" type="int" />
+									<attribute name="bigBlind" type="int" />
+									<attribute name="ante" type="int"/>
+								</complexType>
+							</element>
+							<element name="break">
+								<complexType>
+									<sequence>
+										<element name="note" type="string"/>
+									</sequence>
+									<attribute name="name" type="string" />
+								</complexType>
+							</element>
+						</choice>
+					</complexType>
+				</element>
+			</all>
+		</complexType>
+	</element>
+</schema>

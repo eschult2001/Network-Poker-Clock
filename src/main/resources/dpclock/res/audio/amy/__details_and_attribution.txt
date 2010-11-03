@@ -1,0 +1,178 @@
+
+=================== FREESOUND ATTRIBUTION FORM =======================
+
+This form below lists all the samples in this pack with their descriptions and tags.
+You can use this form to attribute samples to users when you use them.
+
+=========================== CUT HERE =================================
+
+File:
+	Name: "60.wav"
+	Url: http://www.freesound.org/samplesViewSingle.php?id=76852
+	Date of upload: 2009-08-02 20:37:46
+	
+Designer / Creator / Uploader:
+	Name: "Corsica_S"
+	Url: http://www.freesound.org/usersViewSingle.php?id=7037
+	
+Description:
+	By "Corsica_S" : My girlfriend saying "sixty".
+Recorded with an AT2020 mic into an Apogee Duet.
+
+Tags:
+	english female math number speak talk vocal voice 
+======================================================================
+
+File:
+	Name: "70.wav"
+	Url: http://www.freesound.org/samplesViewSingle.php?id=76853
+	Date of upload: 2009-08-02 20:37:46
+	
+Designer / Creator / Uploader:
+	Name: "Corsica_S"
+	Url: http://www.freesound.org/usersViewSingle.php?id=7037
+	
+Description:
+	By "Corsica_S" : My girlfriend saying "seventy".
+Recorded with an AT2020 mic into an Apogee Duet.
+
+Tags:
+	english female math number speak talk vocal voice 
+======================================================================
+
+File:
+	Name: "80.wav"
+	Url: http://www.freesound.org/samplesViewSingle.php?id=76854
+	Date of upload: 2009-08-02 20:37:47
+	
+Designer / Creator / Uploader:
+	Name: "Corsica_S"
+	Url: http://www.freesound.org/usersViewSingle.php?id=7037
+	
+Description:
+	By "Corsica_S" : My girlfriend saying "eighty".
+Recorded with an AT2020 mic into an Apogee Duet.
+
+Tags:
+	english female math number speak talk vocal voice 
+======================================================================
+
+File:
+	Name: "90.wav"
+	Url: http://www.freesound.org/samplesViewSingle.php?id=76855
+	Date of upload: 2009-08-02 20:37:47
+	
+Designer / Creator / Uploader:
+	Name: "Corsica_S"
+	Url: http://www.freesound.org/usersViewSingle.php?id=7037
+	
+Description:
+	By "Corsica_S" : My girlfriend saying "ninety".
+Recorded with an AT2020 mic into an Apogee Duet.
+
+Tags:
+	english female math number speak talk vocal voice 
+======================================================================
+
+File:
+	Name: "and.wav"
+	Url: http://www.freesound.org/samplesViewSingle.php?id=76856
+	Date of upload: 2009-08-02 20:37:48
+	
+Designer / Creator / Uploader:
+	Name: "Corsica_S"
+	Url: http://www.freesound.org/usersViewSingle.php?id=7037
+	
+Description:
+	By "Corsica_S" : My girlfriend saying "and".
+Recorded with an AT2020 mic into an Apogee Duet.
+
+Tags:
+	english female math number speak talk vocal voice 
+======================================================================
+
+File:
+	Name: "divided_by.wav"
+	Url: http://www.freesound.org/samplesViewSingle.php?id=76857
+	Date of upload: 2009-08-02 20:37:48
+	
+Designer / Creator / Uploader:
+	Name: "Corsica_S"
+	Url: http://www.freesound.org/usersViewSingle.php?id=7037
+	
+Description:
+	By "Corsica_S" : My girlfriend saying "divided by".
+Recorded with an AT2020 mic into an Apogee Duet.
+
+Tags:
+	english female math number speak talk vocal voice 
+======================================================================
+
+File:
+	Name: "hundred.wav"
+	Url: http://www.freesound.org/samplesViewSingle.php?id=76858
+	Date of upload: 2009-08-02 20:37:49
+	
+Designer / Creator / Uploader:
+	Name: "Corsica_S"
+	Url: http://www.freesound.org/usersViewSingle.php?id=7037
+	
+Description:
+	By "Corsica_S" : My girlfriend saying "hundred".
+Recorded with an AT2020 mic into an Apogee Duet.
+
+Tags:
+	english female math number speak talk vocal voice 
+======================================================================
+
+File:
+	Name: "minus.wav"
+	Url: http://www.freesound.org/samplesViewSingle.php?id=76859
+	Date of upload: 2009-08-02 20:37:49
+	
+Designer / Creator / Uploader:
+	Name: "Corsica_S"
+	Url: http://www.freesound.org/usersViewSingle.php?id=7037
+	
+Description:
+	By "Corsica_S" : My girlfriend saying "minus".
+Recorded with an AT2020 mic into an Apogee Duet.
+
+Tags:
+	english female math number speak talk vocal voice 
+======================================================================
+
+File:
+	Name: "plus.wav"
+	Url: http://www.freesound.org/samplesViewSingle.php?id=76860
+	Date of upload: 2009-08-02 20:37:50
+	
+Designer / Creator / Uploader:
+	Name: "Corsica_S"
+	Url: http://www.freesound.org/usersViewSingle.php?id=7037
+	
+Description:
+	By "Corsica_S" : My girlfriend saying "plus".
+Recorded with an AT2020 mic into an Apogee Duet.
+
+Tags:
+	english female math number speak talk vocal voice 
+======================================================================
+
+File:
+	Name: "times.wav"
+	Url: http://www.freesound.org/samplesViewSingle.php?id=76861
+	Date of upload: 2009-08-02 20:37:50
+	
+Designer / Creator / Uploader:
+	Name: "Corsica_S"
+	Url: http://www.freesound.org/usersViewSingle.php?id=7037
+	
+Description:
+	By "Corsica_S" : My girlfriend saying "times".
+Recorded with an AT2020 mic into an Apogee Duet.
+
+Tags:
+	english female math number speak talk vocal voice 
+======================================================================
+

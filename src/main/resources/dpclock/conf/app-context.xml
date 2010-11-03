@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+       	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+		
+	<context:annotation-config />
+	<context:property-placeholder location="file:./dpclock.properties"/>
+	
+	<!-- UI -->
+	<bean id="mainFrame" class="dpclock.ui.MainFrame">
+		<property name="title" value="DPClock" />
+
+		<property name="jMenuBar">
+			<bean class="dpclock.ui.JMenuBar">
+				<property name="panelComponents">
+					<list>
+						<bean class="dpclock.ui.JMenu" p:text="File">
+							<property name="panelComponents">
+								<list>
+									<bean class="javax.swing.JMenuItem" p:action-ref="dpclock.actions.ExitAction"/>
+								</list>
+							</property>
+						</bean>
+						<bean class="dpclock.ui.JMenu" p:text="Tournament">
+							<property name="panelComponents">
+								<list>
+									<bean class="javax.swing.JMenuItem" p:action-ref="dpclock.actions.StartAction" />
+									<bean class="javax.swing.JMenuItem" p:action-ref="dpclock.actions.StopAction" />
+									<bean class="javax.swing.JMenuItem" p:action-ref="dpclock.actions.PauseAction" />
+									<bean class="javax.swing.JMenuItem" p:action-ref="dpclock.actions.NextLevelAction" />
+									<bean class="javax.swing.JMenuItem" p:action-ref="dpclock.actions.PreviousLevelAction" />
+									<bean class="javax.swing.JMenuItem" p:action-ref="dpclock.actions.SetTimeAction" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+
+		<property name="contentPane">
+			<bean class="dpclock.ui.GridBagLayoutPanel">
+				<property name="children">
+					<list>
+						<!-- Row 0 -->
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean parent="absLabel" class="dpclock.ui.PropertyListenerJLabel"
+									p:propertySource-ref="dpclock.service.TournamentControllerImpl" 
+									p:propertyName="tournamentName"
+									p:beanPath="tournamentName"
+									p:font-ref="Font.title"/>
+							</constructor-arg>
+							<constructor-arg>
+								<bean parent="GBC.row0" p:gridx="0" p:gridwidth-ref="GridBagConstraints.RELATIVE" />
+							</constructor-arg>
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean parent="absLabel" class="dpclock.ui.JLabel" 
+									p:text="00:00"
+									p:font-ref="Font.label"
+									p:horizontalAlignment-ref="JLabel.TRAILING" 
+									p:componentListener-ref="dpclock.awt.FontResizerCA" />
+							</constructor-arg>
+							<constructor-arg>
+								<bean parent="GBC.row0"/>
+							</constructor-arg>
+						</bean>
+						<!-- Row 1 -->
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg><bean parent="absLabel" p:text="Level" /></constructor-arg>
+							<constructor-arg><bean parent="GBC.row1" p:gridx="0"/></constructor-arg>
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg><bean parent="absLabel" p:text="Ante" /></constructor-arg>
+							<constructor-arg ref="GBC.row1" />
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg><bean parent="absLabel" p:text="Small Blind" /></constructor-arg>
+							<constructor-arg ref="GBC.row1" />
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg><bean parent="absLabel" p:text="Big Blind" /></constructor-arg>
+							<constructor-arg ref="GBC.row1" />
+						</bean>
+
+						<!-- Row 2 -->									
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean parent="Label.absValue" p:propertyName="name" p:text="0"/>
+							</constructor-arg>
+							<constructor-arg><bean parent="GBC.row2" p:gridx="0"/></constructor-arg>
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean parent="Label.absValue" p:propertyName="ante" p:text="0" />
+							</constructor-arg>
+							<constructor-arg ref="GBC.row2" />
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean parent="Label.absValue" p:propertyName="smallBlind" />
+							</constructor-arg>
+							<constructor-arg ref="GBC.row2" />
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean parent="Label.absValue" p:propertyName="bigBlind" />
+							</constructor-arg>
+							<constructor-arg ref="GBC.row2" />
+						</bean>
+						
+						<!-- Row 3 -->
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean id="ComboBox.levelChooser" class="javax.swing.JComboBox" 
+									p:action-ref="dpclock.actions.LevelSelectedAction" 
+									p:model-ref="levelListModel" />
+							</constructor-arg>
+							<constructor-arg><bean parent="GBC.row3" p:gridx="0" p:fill-ref="GridBagConstraints.NONE"/></constructor-arg>
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean parent="Label.absValue" p:propertyName="note" p:font-ref="Font.label"/>
+							</constructor-arg>
+							<constructor-arg><bean parent="GBC.row3" p:gridwidth-ref="GridBagConstraints.REMAINDER"/></constructor-arg>
+						</bean>
+
+						<!-- Row 4 -->
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean id="dpclock.ui.stopwatch.StopWatchJButton" class="dpclock.ui.stopwatch.StopWatchJButton"
+									p:font-ref="Font.clock" 
+									p:focusable="false" p:focusPainted="false"
+									p:stopWatchBean-ref="dpclock.ui.stopwatch.StopWatchBean"
+									p:action-ref="dpclock.actions.PauseAction"
+									p:componentListener-ref="dpclock.awt.FontResizerCA"/>
+							</constructor-arg>
+							<constructor-arg><bean parent="GBC.row4" p:gridx="0" p:weighty="1" p:gridwidth-ref="GridBagConstraints.REMAINDER"/></constructor-arg> 
+						</bean>
+
+
+						<!-- Row 5 -->
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg><bean parent="absLabel" p:text="Next Level" /></constructor-arg>
+							<constructor-arg><bean parent="GBC.row5" p:gridx="0"/></constructor-arg>
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg><bean parent="absLabel" p:text="Next Ante" /></constructor-arg>
+							<constructor-arg ref="GBC.row5" />
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg><bean parent="absLabel" p:text="Next Small Blind" /></constructor-arg>
+							<constructor-arg ref="GBC.row5" />
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg><bean parent="absLabel" p:text="Next Big Blind" /></constructor-arg>
+							<constructor-arg ref="GBC.row5" />
+						</bean>
+
+						<!-- Row 6 -->									
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean parent="Label.absNextValue" p:propertyName="next.name" p:text="0" />
+							</constructor-arg>
+							<constructor-arg><bean parent="GBC.row6" p:gridx="0"/></constructor-arg>
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean parent="Label.absNextValue" p:propertyName="next.ante" p:text="0" />
+							</constructor-arg>
+							<constructor-arg ref="GBC.row6" />
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean parent="Label.absNextValue" p:propertyName="next.smallBlind" />
+							</constructor-arg>
+							<constructor-arg ref="GBC.row6" />
+						</bean>
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean parent="Label.absNextValue" p:propertyName="next.bigBlind" />
+							</constructor-arg>
+							<constructor-arg ref="GBC.row6" />
+						</bean>
+				
+						<!-- Row 7 -->									
+						<bean class="dpclock.ui.GridBagLayoutPanel.GridBagComponent">
+							<constructor-arg>
+								<bean parent="Label.absValue" p:propertyName="next.note" p:font-ref="Font.label"/>
+							</constructor-arg>
+							<constructor-arg><bean parent="GBC.row7" p:gridx="1" p:gridwidth-ref="GridBagConstraints.REMAINDER"/></constructor-arg>
+						</bean>
+						
+						<!--<bean class="dpclock.ui.BoxLayoutPanel" p:axis-ref="BoxLayout.X_AXIS">
+							<property name="panelComponents">
+								<list>
+									<bean id="previousLevelButton" class="dpclock.ui.ActionListenerButton"
+										p:action-ref="dpclock.actions.PreviousLevelAction" />
+									<bean id="nextLevelButton" class="dpclock.ui.ActionListenerButton"
+										p:action-ref="dpclock.actions.NextLevelAction" />
+									<bean id="pauseButton" class="dpclock.ui.ActionListenerButton"
+										p:action-ref="dpclock.actions.PauseAction" />
+								</list>
+							</property>
+						</bean>-->
+
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="GBC.base" class="dpclock.awt.GridBagConstraints" 
+		p:gridx-ref="GridBagConstraints.RELATIVE"
+		p:gridy-ref="GridBagConstraints.RELATIVE"
+		p:fill-ref="GridBagConstraints.BOTH"
+		p:weightx="1" p:weighty="0" 
+		p:gridwidth="1" p:gridheight="1"
+	/>
+	<bean id="GBC.row0" parent="GBC.base" p:gridy="0"/>	
+	<bean id="GBC.row1" parent="GBC.base" p:gridy="1"/>	
+	<bean id="GBC.row2" parent="GBC.base" p:gridy="2"/>	
+	<bean id="GBC.row3" parent="GBC.base" p:gridy="3"/>	
+	<bean id="GBC.row4" parent="GBC.base" p:gridy="4"/>	
+	<bean id="GBC.row5" parent="GBC.base" p:gridy="5"/>	
+	<bean id="GBC.row6" parent="GBC.base" p:gridy="6"/>	
+	<bean id="GBC.row7" parent="GBC.base" p:gridy="7"/>	
+
+	<!-- Fonts from properties -->
+	<bean id="Font.label"     class="dpclock.awt.FontFactory"	p:fontSpec="${dpclock.label.font}"/>
+	<bean id="Font.value"     class="dpclock.awt.FontFactory"	p:fontSpec="${dpclock.value.font}"/>
+	<bean id="Font.labelNext" class="dpclock.awt.FontFactory"	p:fontSpec="${dpclock.labelNext.font}"/>
+	<bean id="Font.valueNext" class="dpclock.awt.FontFactory"	p:fontSpec="${dpclock.valueNext.font}"/>
+	<bean id="Font.title"     class="dpclock.awt.FontFactory"	p:fontSpec="${dpclock.title.font}"/>
+	<bean id="Font.clock"     class="dpclock.awt.FontFactory"	p:fontSpec="${dpclock.clock.font}"/>
+
+	<!-- Actions -->
+	<bean id="dpclock.actions.NextLevelAction" class="dpclock.actions.NextLevelAction"
+		p:tournamentController-ref="dpclock.service.TournamentController" />
+	<bean id="dpclock.actions.SetTimeAction" class="dpclock.actions.SetTimeAction"
+		p:tournamentController-ref="dpclock.service.TournamentController"
+		p:parentComponent-ref="mainFrame"/>
+	<bean id="dpclock.actions.PreviousLevelAction" class="dpclock.actions.PreviousLevelAction"
+		p:tournamentController-ref="dpclock.service.TournamentController" />
+	<bean id="dpclock.actions.StopAction" class="dpclock.actions.StopAction"
+		p:tournamentController-ref="dpclock.service.TournamentController" />
+	<bean id="dpclock.actions.StartAction" class="dpclock.actions.StartAction"
+		p:tournamentController-ref="dpclock.service.TournamentController" />
+	<bean id="dpclock.actions.PauseAction" class="dpclock.actions.PauseAction"
+		p:tournamentController-ref="dpclock.service.TournamentController" />
+	<bean id="dpclock.actions.LevelSelectedAction" class="dpclock.actions.LevelSelectedAction"
+		p:tournamentController-ref="dpclock.service.TournamentController" />
+	<bean id="dpclock.actions.ExitAction" class="dpclock.actions.ExitAction" />
+
+	<!-- MISC -->
+	
+	<util:constant id="Font.BOLD"			static-field="java.awt.Font.BOLD" />
+	<util:constant id="Font.PLAIN"			static-field="java.awt.Font.PLAIN" />
+	<util:constant id="Font.ITALIC"			static-field="java.awt.Font.ITALIC" />
+	<util:constant id="Font.BOLDITALIC"		static-field="dpclock.awt.FontFactory.BOLDITALIC" />
+	<util:constant id="Font.TRUETYPE_FONT"	static-field="java.awt.Font.TRUETYPE_FONT" />
+	<util:constant id="Font.TYPE1_FONT"		static-field="java.awt.Font.TYPE1_FONT" />
+
+	<util:constant id="BoxLayout.X_AXIS"	static-field="javax.swing.BoxLayout.X_AXIS" />
+	<util:constant id="BoxLayout.Y_AXIS"	static-field="javax.swing.BoxLayout.Y_AXIS" />
+	<util:constant id="JLabel.LEADING" 		static-field="javax.swing.JLabel.LEADING" />
+	<util:constant id="JLabel.TRAILING" 	static-field="javax.swing.JLabel.TRAILING" />
+	<util:constant id="SwingConstants.LEFT" static-field="javax.swing.SwingConstants.LEFT" />
+	<util:constant id="SwingConstants.CENTER" static-field="javax.swing.SwingConstants.CENTER" />
+	<util:constant id="SwingConstants.RIGHT" static-field="javax.swing.SwingConstants.RIGHT" />
+	<util:constant id="Color.BLACK" 		static-field="java.awt.Color.BLACK" />
+	<util:constant id="Color.WHITE" 		static-field="java.awt.Color.WHITE" />
+	<util:constant id="JSplitPane.HORIZONTAL_SPLIT"
+		static-field="javax.swing.JSplitPane.HORIZONTAL_SPLIT" />
+
+	<util:constant id="GridBagConstraints.RELATIVE" static-field="java.awt.GridBagConstraints.RELATIVE" />
+	<util:constant id="GridBagConstraints.REMAINDER" static-field="java.awt.GridBagConstraints.REMAINDER" />
+	<util:constant id="GridBagConstraints.BOTH"		static-field="java.awt.GridBagConstraints.BOTH" />
+	<util:constant id="GridBagConstraints.NONE"		static-field="java.awt.GridBagConstraints.NONE" />
+
+	<bean id="dpclock.awt.FontResizerCA" class="dpclock.awt.FontResizerCA">
+		<constructor-arg>
+			<value>00:00</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="absLabel" abstract="true" class="javax.swing.JLabel"
+		p:font-ref="Font.label"
+		p:horizontalAlignment-ref="SwingConstants.CENTER"/>
+
+	<bean id="Label.absValue" abstract="true" class="dpclock.ui.ListDataListenerJLabel"
+		p:font-ref="Font.value"
+		p:horizontalAlignment-ref="SwingConstants.CENTER" p:propertySource-ref="levelListModel"
+ 		p:text="-" />
+ 		<!--
+ 		p:propertyChangeListener-ref="dpclock.awt.FontResizerCA"
+		p:componentListener-ref="dpclock.awt.FontResizerCA"
+		-->
+
+	<bean id="Label.absNextValue" parent="Label.absValue"
+		p:font-ref="Font.valueNext" />
+		
+	<!-- Model objects -->	
+	<bean id="levelListModel" class="javax.swing.DefaultComboBoxModel">
+<!--		<constructor-arg ref="levelItems"/>-->
+	</bean>
+
+	<!-- Controllers -->
+	<bean id="dpclock.service.TournamentController" class="dpclock.service.remote.TournamentRemoteProxy"
+		name="dpclock.service.TournamentController, dpclock.ui.stopwatch.StopWatchBean"
+		p:controller-ref="dpclock.service.TournamentControllerImpl"/>
+	
+	<bean id="dpclock.service.TournamentControllerImpl" class="dpclock.service.TournamentControllerImpl"
+		p:levels-ref="levelListModel"
+		p:rpcDispatcher-ref="org.jgroups.blocks.RpcDispatcher"
+		p:settings-ref="tournamentSettings"/>
+	
+	<!-- Networking -->
+ 	<bean id="org.jgroups.blocks.RpcDispatcher" class="dpclock.net.RpcDispatcherFactory"
+ 		p:channel-ref="channel"
+ 		p:membershipListener-ref="dpclock.net.TournamentReceiver"
+ 		p:messageListener-ref="dpclock.net.TournamentReceiver"
+ 		p:server-ref="dpclock.service.TournamentControllerImpl" />
+
+	<bean id="dpclock.net.TournamentReceiver" class="dpclock.net.TournamentReceiver" />
+
+	<bean id="channel" class="dpclock.net.ChannelBeanFactory" 
+		p:jgroupsConfig="${dpclock.conf.jgroupsConfig:udp.xml}"
+		p:clusterName="DPClock_Cluster"/>
+
+	<!-- Data I/O -->
+    <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="classesToBeBound">
+            <list>
+                <value>dpclock.schema.Tournament</value>
+                <value>dpclock.schema.TournamentLevelBean</value>                
+            </list>
+        </property>
+<!--        <property name="schema" value="file:./tournament.xsd"/>-->
+    </bean>
+
+	<!-- Starting tournament settings -->
+	<bean id="tournamentSettings" class="dpclock.schema.util.TournamentUnmarshaller" 
+		p:unmarshaller-ref="jaxb2Marshaller"
+		p:fileName="tournament.xml"
+	/>
+	
+</beans>
